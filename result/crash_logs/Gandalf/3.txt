@@ -1,0 +1,2 @@
+TypeError: enable_tuned_tensorrt_dynamic_shape(): incompatible function arguments. The following argument types are supported:
+    1. (self: paddle.base.libpaddle.AnalysisConfig, shape_range_info_path: str = '', allow_build_at_runtime: bool = True) -> None

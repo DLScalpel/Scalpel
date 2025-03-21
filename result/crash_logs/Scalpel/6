@@ -1,0 +1,4 @@
+RuntimeError: (NotFound) Operator (nms_gpu) is not registered.
+  [Hint: op_info_ptr should not be null.] (at /paddle/paddle/fluid/framework/op_info.h:152)
+
+原因：包名不一致，应该从paddle3d.ops.iou3d_nms_cuda中import nms_gpu。但在apollo系统的原实现中从paddle3d.ops.iou3d_nms中import nms_gpu

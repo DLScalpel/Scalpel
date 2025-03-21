@@ -1,0 +1,11 @@
+  File "/media/zou/EAGET忆捷/ICSE2026/deploy_util/multiviewdetection_image_3dcoord_history_infer.py", line 195, in multiviewdetection_image_3dcoord_history_infer
+    result = model(image,img2lidars,timestamp)
+  File "/root/anaconda3/envs/paddle_env/lib/python3.8/site-packages/paddle/nn/layer/layers.py", line 1429, in __call__
+    return self.forward(*inputs, **kwargs)
+  File "/root/anaconda3/envs/paddle_env/lib/python3.8/site-packages/paddle/jit/translated_layer.py", line 1477, in __i_m_p_l__
+    return _run_dygraph(self, input, program_holder)
+  File "/root/anaconda3/envs/paddle_env/lib/python3.8/site-packages/paddle/jit/translated_layer.py", line 1004, in _run_dygraph
+    _legacy_C_ops.run_program(
+OSError: (External) CUDNN error(3000), CUDNN_STATUS_NOT_SUPPORTED. 
+  [Hint: Please search for the error code(3000) on website (https://docs.nvidia.com/deeplearning/cudnn/api/index.html#cudnnStatus_t) to get Nvidia's official solution and advice about CUDNN Error.] (at /paddle/paddle/phi/backends/gpu/cuda/cudnn_desc.h:167)
+  [operator < conv2d > error]  [operator < run_program > error]

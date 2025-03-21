@@ -1,0 +1,2 @@
+报错信息：    raise ValueError(
+ValueError: The feeded_var_names[1]: 'images' doesn't exist in pruned inference program. Please check whether 'images' is a valid feed_var name, or remove it from feeded_var_names if 'images' is not involved in the target_vars calculation.

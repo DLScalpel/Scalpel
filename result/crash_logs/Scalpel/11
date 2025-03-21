@@ -1,0 +1,4 @@
+{
+  "model_inf": "from:0 to:1 operator:identity  from:1 to:2 operator:identity  from:2 to:3 operator:identity  from:3 to:4 operator:identity  from:4 to:5 operator:identity  from:5 to:6 operator:identity  from:5 to:7 operator:separable_conv2D  from:6 to:7 operator:identity  from:7 to:8 operator:identity  from:8 to:9 operator:identity  ",
+  "error_message": "(External) CUDNN error(3000), CUDNN_STATUS_NOT_SUPPORTED. \n  [Hint: Please search for the error code(3000) on website (https://docs.nvidia.com/deeplearning/cudnn/api/index.html#cudnnStatus_t) to get Nvidia's official solution and advice about CUDNN Error.] (at /paddle/paddle/phi/backends/gpu/cuda/cudnn_desc.h:167)\n  [operator < conv2d > error]  [operator < run_program > error]"
+}

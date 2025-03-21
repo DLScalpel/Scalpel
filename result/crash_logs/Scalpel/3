@@ -1,0 +1,4 @@
+{
+  "model_inf": "from:0 to:1 operator:identity  from:0 to:2 operator:leakyReLU  from:0 to:6 operator:leakyReLU  from:1 to:2 operator:identity  from:2 to:3 operator:identity  from:2 to:9 operator:ReLU  from:3 to:4 operator:identity  from:4 to:5 operator:ELU  from:5 to:6 operator:identity  from:6 to:7 operator:identity  from:7 to:8 operator:identity  from:8 to:9 operator:identity  ",
+  "error_message": "(InvalidArgument) Broadcast dimension mismatch. Operands could not be broadcast together with the shape of X = [300, 7] and the shape of Y = [282, 7]. Received [300] in X is not equal to [282] in Y at i:0.\n  [Hint: Expected x_dims_array[i] == y_dims_array[i] || x_dims_array[i] <= 1 || y_dims_array[i] <= 1 == true, but received x_dims_array[i] == y_dims_array[i] || x_dims_array[i] <= 1 || y_dims_array[i] <= 1:0 != true:1.] (at /paddle/paddle/phi/kernels/funcs/common_shape.h:86)\n"
+}

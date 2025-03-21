@@ -1,0 +1,5 @@
+9，12，13:limited memory。GPU资源耗尽,可能是模型过大，也有可能是模型被重复分配了memory。
+1和2和3和4：inference optimization 分两种，第一种是123，是由于优化机制的缺陷，memory allocation failure张量没有按声明的方式加载到gpu里。模型声明了加载方式，但是加载出现了错误。另外一种是4,本来存在的变量，由于被内存优化时候误判了，因此被删除修剪掉了。（因为模型里又加载了其它的动态图，挤占了原有的内存空间）。
+5，7，8：incompatible arguments 车端框架是裁减后的框架，无法兼容云端框架的一些参数，convert之后出错。
+6,141516：unimplemented function 相比于云端框架，车端框架更加轻量级，存在着不支持的功能。不支持的功能被自动驾驶系统调用了 例如6：包名不一致，应该从paddle3d.ops.iou3d_nms_cuda中import nms_gpu。但在apollo系统的原实现中从paddle3d.ops.iou3d_nms中import nms_gpu。例如14，15，16：在ehicle-end框架中不支持construct a memory descriptor using a format tag。
+10，11：other。cudnn error(3000),可能是由框架版本不匹配导致的
