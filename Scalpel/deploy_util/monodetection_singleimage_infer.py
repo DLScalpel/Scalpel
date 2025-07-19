@@ -1,6 +1,12 @@
 import cv2
+import mmdeploy.apis
 import numpy as np
 import paddle
+# import paddle2onnx
+from paddle.static import InputSpec
+from mmdeploy.apis import inference_model
+from deploy_util.predictor import infer_with_onnxruntime_trt_image
+
 
 
 def get_ratio(ori_img_size, output_size, down_ratio=(4, 4)):
@@ -57,7 +63,7 @@ def run(predictor, image, K, down_ratio):
 
     return results
 def monodetection_singleimage_infer(mode,predictor):
-    image_path = '/media/zou/EAGET忆捷/ICSE2026/images/centerpoint.png'
+    image_path = '/tmp/pycharm_project_403/images/n015-2018-07-24-11-22-45+0800__CAM_BACK__1532402927637525.jpg'
     if mode == 'paddlepaddle':
         # Listed below are camera intrinsic parameter of the kitti dataset
         # If the model is trained on other datasets, please replace the relevant data
@@ -69,6 +75,12 @@ def monodetection_singleimage_infer(mode,predictor):
         # 把字符串里的.pdmodel去掉
         model = paddle.jit.load(predictor.model_file[:-8])
         results = model(ratio,img,K)
+        #转onnx模型，为autoware部署做准备
+        paddle.onnx.export(model,predictor.model_file[:-8],input_spec = [
+        InputSpec(shape=ratio.shape, dtype=ratio.dtype, name="ratio"),
+        InputSpec(shape=img.shape, dtype=img.dtype, name="img"),
+        InputSpec(shape=K.shape, dtype=K.dtype, name="K")
+        ])
         return results
     elif mode == 'paddleinference':
         # Listed below are camera intrinsic parameter of the kitti dataset
@@ -78,7 +90,21 @@ def monodetection_singleimage_infer(mode,predictor):
 
         img, ori_img_size, output_size = get_img(image_path)
         ratio = get_ratio(ori_img_size, output_size)
-
         results = run(predictor.get_predictor(), img, K, ratio)
 
         return results[0]
+    elif mode == 'autoware':
+        K = np.array([[[721.53771973, 0., 609.55932617],
+                       [0., 721.53771973, 172.85400391], [0, 0, 1]]], np.float32)
+        img, ori_img_size, output_size = get_img(image_path)
+        ratio = get_ratio(ori_img_size, output_size)
+        result = infer_with_onnxruntime_trt_image('/tmp/pycharm_project_403/exported_model/smoke.onnx',img,K,ratio)
+        # result = inference_model(
+        #     model_path='/tmp/pycharm_project_403/exported_model/smoke.onnx',  # 直接使用ONNX模型路径
+        #     img=[img,K,ratio],  # 输入必须是列表
+        #     backend='tensorrt',  # 指定TensorRT后端
+        #     device='cuda:0',
+        #     backend_files=None  # 自动生成TensorRT引擎
+        # )
+        return result
+

@@ -1,0 +1,7 @@
+1, 2, 3, and 4: Inference optimization failures, falling into two categories. The first category (Cases 1-3) arises from defects in optimization mechanisms: tensors are not loaded into the GPU as declared. The model declared the loading method, but errors occurred during loading. The second category (Case 4) involves preexisting variables being erroneously pruned during memory optimization. (This happens because dynamically loaded graphs compete for original memory space).
+5, 7, and 8: Incompatible arguments. The vehicle-end framework is a streamlined version and cannot accommodate certain parameters from cloud-end frameworks, causing errors post-conversion.
+
+9, 12, 13: Limited memory. GPU resources exhausted; this could be due to oversized models or repeated memory allocation.
+
+6, 14, 15, 16: Unimplemented functions. Compared to cloud-end frameworks, the vehicle-end framework is more lightweight and lacks support for certain features. The autonomous driving system invoked unsupported functions. Case 6: Package name inconsistency – `nms_gpu` should be imported from `paddle3d.ops.iou3d_nms_cuda`, but Apollo’s implementation imports it from `paddle3d.ops.iou3d_nms`.Cases 14-16: The vehicle-end framework does not support constructing a memory descriptor using a format tag.
+10 and 11: Other errors. cuDNN error (3000); They are caused by framework version mismatches.

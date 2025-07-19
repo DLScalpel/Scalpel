@@ -1,0 +1,23 @@
+OSError: (External) CUDA error(700), an illegal memory access was encountered. 
+  [Hint: 'cudaErrorIllegalAddress'. The device encountered a load or store instruction on an invalid memory address. This leaves the process in an inconsistentstate and any further CUDA work will return the same error. To continue using CUDA, the process must be terminated and relaunched. ] (at phi/backends/gpu/cuda/cuda_info.cc:272)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/pycharm_project_403/main.py", line 78, in <module>
+    diff = worker.excute()
+  File "/tmp/pycharm_project_403/DataStruct/worker.py", line 14, in excute
+    diff = calFitness(g)
+  File "/tmp/pycharm_project_403/Method/calFitness.py", line 10, in calFitness
+    diff = deploy()
+  File "/tmp/pycharm_project_403/deploy.py", line 119, in deploy
+    export(model_config_path)
+  File "/tmp/pycharm_project_403/deploy.py", line 80, in export
+    model = cfg.model
+  File "/tmp/pycharm_project_403/apis/config.py", line 177, in model
+    self._model = self._load_object(model_cfg)
+  File "/tmp/pycharm_project_403/apis/config.py", line 292, in _load_object
+    raise type(e)('{} {}'.format(component.__name__, e))
+OSError: SMOKE (External) CUDA error(700), an illegal memory access was encountered. 
+  [Hint: 'cudaErrorIllegalAddress'. The device encountered a load or store instruction on an invalid memory address. This leaves the process in an inconsistentstate and any further CUDA work will return the same error. To continue using CUDA, the process must be terminated and relaunched. ] (at phi/backends/gpu/cuda/cuda_info.cc:272)

@@ -1,0 +1,4 @@
+limited memory：2、3、4、5、6
+memory access failure：1
+unimplemented function：7,9
+incompatible argument: 8

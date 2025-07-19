@@ -2,6 +2,7 @@ import numba
 import numpy as np
 import paddle
 from paddle.inference import Config, create_predictor
+from deploy_util.predictor import infer_with_onnxruntime_trt_lidar
 
 
 def read_point(file_path, num_point_dim):
@@ -145,7 +146,7 @@ def lidardetection_infer(mode,predictor):
         return box3d_lidar
     elif mode == 'paddleinference':
 
-        lidar_file = '/home/zou/桌面/KITTI/training/velodyne/000000.bin'
+        lidar_file = '/KITTI/training/velodyne/000000.bin'
         num_point_dim = 4
         point_cloud_range = [0.0, -39.68, -3.0, 69.12, 39.68, 1.0]
         voxel_size = [0.16, 0.16, 4.0]
@@ -158,3 +159,16 @@ def lidardetection_infer(mode,predictor):
 
         box3d_lidar, label_preds, scores = run(predictor, voxels, coords,num_points_per_voxel)
         return box3d_lidar
+    elif mode == 'autoware':
+        lidar_file = '/KITTI/training/velodyne/000000.bin'
+        num_point_dim = 4
+        point_cloud_range = [0.0, -39.68, -3.0, 69.12, 39.68, 1.0]
+        voxel_size = [0.16, 0.16, 4.0]
+        max_points_in_voxel = 32
+        max_voxel_num = 40000
+
+        voxels, coords, num_points_per_voxel = preprocess(
+            lidar_file, num_point_dim, point_cloud_range,
+            voxel_size, max_points_in_voxel, max_voxel_num)
+        result = infer_with_onnxruntime_trt_lidar('/tmp/pycharm_project_403/exported_model/smoke.onnx',voxels, coords, num_points_per_voxel)
+        return result

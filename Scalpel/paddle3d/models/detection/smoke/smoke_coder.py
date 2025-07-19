@@ -127,8 +127,10 @@ class SMOKECoder(paddle.nn.Layer):
         batch_id = paddle.arange(N_batch).unsqueeze(1)
         obj_id = batch_id.tile([1, N // N_batch]).flatten()
 
-        trans_mats_inv = trans_mats.inverse()[obj_id]
-        Ks_inv = Ks.inverse()[obj_id]
+        trans_mats_inv = np.linalg.inv(trans_mats)[obj_id]
+        Ks_inv = np.linalg.inv(Ks)[obj_id]
+        # trans_mats_inv = trans_mats.inverse()[obj_id]
+        # Ks_inv = Ks.inverse()[obj_id]
 
         points = paddle.reshape(points, (-1, 2))
         assert points.shape[0] == N
@@ -183,7 +185,8 @@ class SMOKECoder(paddle.nn.Layer):
         # obj_id = batch_id.repeat(1, N // N_batch).flatten()
         obj_id = batch_id.tile([1, N // N_batch]).flatten()
 
-        Ks_inv = Ks.inverse()[obj_id]
+        Ks_inv = Ks
+        # Ks_inv = Ks.inverse()[obj_id]
 
         down_ratio = down_ratios[0]
         points = paddle.reshape(points, (numel_t(points) // 2, 2))
@@ -316,7 +319,8 @@ class SMOKECoder(paddle.nn.Layer):
         batch_id = paddle.arange(N_batch).unsqueeze(1)
         obj_id = batch_id.tile([1, N // N_batch]).flatten()
 
-        trans_mats_inv = trans_mats.inverse()[obj_id]
+        trans_mats_inv = np.linalg.inv(trans_mats)[obj_id]
+        # trans_mats_inv = trans_mats.inverse()[obj_id]
         points = paddle.reshape(points, (-1, 2))
         assert points.shape[0] == N
 

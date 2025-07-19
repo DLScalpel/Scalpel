@@ -72,8 +72,8 @@ while t < GlobalConfig.maxMutateTime:
     #     print(overall)
     try:
 
-    # if t >= GlobalConfig.maxMutateTime - 50:
-    #     start_time = datetime.datetime.now()
+        # if t >= GlobalConfig.maxMutateTime - 50:
+        #     start_time = datetime.datetime.now()
 
         diff = worker.excute()
         print("第" + str(t) + "轮已经完成")
@@ -87,7 +87,7 @@ while t < GlobalConfig.maxMutateTime:
 
     except Exception as e:
         GlobalConfig.fail_time += 1
-        record_path = f"/ICSE2026/Crush_logs/crush_log_{str(GlobalConfig.fail_time)}.json"
+        record_path = f"/tmp/pycharm_project_403/Crush_logs/crush_log_{str(GlobalConfig.fail_time)}.json"
         model_info = util.getFinalModule_in_str_formal()
         js_content = {"model_inf": model_info, "error_message": str(e)}
         js_str = json.dumps(js_content, indent=2)

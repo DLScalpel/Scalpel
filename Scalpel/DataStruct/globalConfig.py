@@ -62,14 +62,16 @@ class GlobalConfig:
     basicProp = 0.8
 
     # 车端模型类型，以及每种类型的模型对应的配置文件。
-    modeltype_and_configpath = {'MonoDetection_SingleImage': '/ICSE2026/configs/smoke/smoke_hrnet18_no_dcn_kitti.yml',
-                                'MultiViewDetection_Image_3DCoord': '/ICSE2026/configs/petr/petr_vovnet_gridmask_p4_800x320.yml',
-                                'MultiViewDetection_Image_3DCoord_History': '/ICSE2026/configs/petr/petrv2_vovnet_gridmask_p4_800x320.yml',
-                                'LidarDetection': '/ICSE2026/configs/pointpillars/pointpillars_xyres16_kitti_car.yml'
+    modeltype_and_configpath = {'MonoDetection_SingleImage': '/tmp/pycharm_project_403/configs/smoke/smoke_hrnet18_no_dcn_kitti.yml',
+                                'MultiViewDetection_Image_3DCoord': '/tmp/pycharm_project_403/configs/petr/petr_vovnet_gridmask_p4_800x320.yml',
+                                'MultiViewDetection_Image_3DCoord_History': '/tmp/pycharm_project_403/configs/petr/petrv2_vovnet_gridmask_p4_800x320.yml',
+                                'LidarDetection': '/tmp/pycharm_project_403/configs/pointpillars/pointpillars_xyres16_kitti_car.yml'
                                 }
     # 本次测试输入模型生成的模型类型，在modeltype_and_configpath键值中的一个。
     this_modeltype = 'MonoDetection_SingleImage'
     # 导出的模型路径 模型类型和文件名对应关系:{'MonoDetection_SingleImage': 'smoke','MultiViewDetection_Image_3DCoord': 'petr_inference','MultiViewDetection_Image_3DCoord_History': 'petrv2_inference','LidarDetection': 'pointpillars'}
-    exported_model_path = '/ICSE2026/exported_model/smoke.pdmodel'
+    exported_model_path = '/tmp/pycharm_project_403/exported_model/smoke.pdmodel'
     # 导出的模型参数路径
-    exported_model_weight_path = '/ICSE2026/exported_model/smoke.pdiparams'
+    exported_model_weight_path = '/tmp/pycharm_project_403/exported_model/smoke.pdiparams'
+    # tested framework: 'autoware','paddlepaddle'
+    tested_framework = 'autoware'

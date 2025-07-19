@@ -15,7 +15,6 @@ from paddle3d.utils.logger import logger
 from deploy_util.predictor import Predictor
 from deploy_util.lidardetection_infer import lidardetection_infer
 from deploy_util.monodetection_singleimage_infer import monodetection_singleimage_infer
-from deploy_util.multiviewdetection_image_3dcoord_history_infer import multiviewdetection_image_3dcoord_history_infer
 from deploy_util.multiviewdetection_image_3dcoord_infer import multiviewdetection_image_3dcoord_infer
 
 def generate_apollo_deploy_file(cfg, save_dir: str):
@@ -106,8 +105,6 @@ def infer(mode,exported_model_path,exported_model_weight_path):
         res = monodetection_singleimage_infer(mode,predictor)
     elif GlobalConfig.this_modeltype == 'MultiViewDetection_Image_3DCoord':
         res = multiviewdetection_image_3dcoord_infer(mode,predictor)
-    elif GlobalConfig.this_modeltype == 'MultiViewDetection_Image_3DCoord_History':
-        res = multiviewdetection_image_3dcoord_history_infer(mode,predictor)
     elif GlobalConfig.this_modeltype == 'LidarDetection':
         res = lidardetection_infer(mode,predictor)
     return res
@@ -122,6 +119,10 @@ def deploy():
     res1 = infer('paddlepaddle',exported_model_path,exported_model_weight_path)
     res1 = res1.numpy()
     res2 = infer('paddleinference',exported_model_path,exported_model_weight_path)
-    diff_tensor = res1 - res2
+    res3 = infer('autoware',exported_model_path,exported_model_weight_path)
+    if GlobalConfig.tested_framework == 'paddlepaddle':
+        diff_tensor = res1 - res2
+    elif GlobalConfig.tested_framework == 'autoware':
+        diff_tensor = res1 - res3
     max_diff = np.max(np.abs(diff_tensor))
     return max_diff

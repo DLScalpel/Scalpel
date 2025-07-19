@@ -1,0 +1,28 @@
+--------------------------------------
+C++ Traceback (most recent call last):
+--------------------------------------
+0   pybind::eager_api_gaussian(_object*, _object*, _object*)
+1   gaussian_ad_func(experimental::IntArrayBase<Tensor>, float, float, int, phi::DataType, phi::Place)
+2   experimental::gaussian(experimental::IntArrayBase<Tensor> const&, float, float, int, phi::DataType, phi::Place const&)
+3   void phi::GaussianKernel<float, phi::GPUContext>(phi::GPUContext const&, experimental::IntArrayBase<phi::DenseTensor> const&, float, float, int, phi::DataType, phi::DenseTensor*)
+4   float* phi::DeviceContext::Alloc<float>(phi::TensorBase*, unsigned long, bool) const
+5   phi::DeviceContext::Impl::Alloc(phi::TensorBase*, phi::Place const&, phi::DataType, unsigned long, bool, bool) const
+6   phi::DenseTensor::AllocateFrom(phi::Allocator*, phi::DataType, unsigned long, bool)
+7   memory::allocation::Allocator::Allocate(unsigned long)
+8   memory::allocation::StatAllocator::AllocateImpl(unsigned long)
+9   memory::allocation::Allocator::Allocate(unsigned long)
+10  memory::allocation::Allocator::Allocate(unsigned long)
+11  memory::allocation::Allocator::Allocate(unsigned long)
+12  memory::allocation::Allocator::Allocate(unsigned long)
+13  memory::allocation::CUDAAllocator::AllocateImpl(unsigned long)
+14  std::string phi::enforce::GetCompleteTraceBackString<std::string >(std::string&&, char const*, int)
+15  phi::enforce::GetCurrentTraceBackString[abi:cxx11](bool)
+
+----------------------
+Error Message Summary:
+----------------------
+ResourceExhaustedError: 
+
+Out of memory error on GPU 0. Cannot allocate 2.373047MB memory on GPU 0, 14.577148GB memory has been allocated and available memory is only 1.312500MB.
+
+Please check whether there is any other process using GPU 0.

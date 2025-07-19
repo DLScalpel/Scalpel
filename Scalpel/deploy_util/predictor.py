@@ -49,3 +49,111 @@ class Predictor():
         self.predictor = inference.create_predictor(config)
     def get_predictor(self):
         return self.predictor
+
+
+import onnxruntime as ort
+def infer_with_onnxruntime_trt_image(onnx_path, img, K, ratio):
+    so = ort.SessionOptions()
+
+    # 配置 TensorRT 后端
+    trt_options = {
+        'device_id': 0,
+        'trt_max_workspace_size': 1 << 30,  # 1GB
+        'trt_fp16_enable': False,
+        'trt_engine_cache_enable': True,
+        'trt_engine_cache_path': './trt_cache'
+    }
+
+    # 创建会话
+    session = ort.InferenceSession(
+        onnx_path,
+        providers=['TensorrtExecutionProvider'],
+        provider_options=[trt_options],
+        sess_options=so
+    )
+
+    # 获取输入名称
+    input_names = [input.name for input in session.get_inputs()]
+
+    # 准备输入数据
+    inputs = {
+        input_names[0]: ratio,
+        input_names[1]: img,
+        input_names[2]: K
+    }
+
+    # 执行推理
+    outputs = session.run(None, inputs)
+
+    return outputs[0]
+
+##########################################################################
+def infer_with_onnxruntime_trt_lidar(onnx_path, voxels, coords, num_points_per_voxel):
+    so = ort.SessionOptions()
+
+    # 配置 TensorRT 后端
+    trt_options = {
+        'device_id': 0,
+        'trt_max_workspace_size': 1 << 30,  # 1GB
+        'trt_fp16_enable': False,
+        'trt_engine_cache_enable': True,
+        'trt_engine_cache_path': './trt_cache'
+    }
+
+    # 创建会话
+    session = ort.InferenceSession(
+        onnx_path,
+        providers=['TensorrtExecutionProvider'],
+        provider_options=[trt_options],
+        sess_options=so
+    )
+
+    # 获取输入名称
+    input_names = [input.name for input in session.get_inputs()]
+
+    # 准备输入数据
+    inputs = {
+        input_names[0]: num_points_per_voxel,
+        input_names[1]: coords,
+        input_names[2]: voxels
+    }
+
+    # 执行推理
+    outputs = session.run(None, inputs)
+
+    return outputs[0]
+
+###########################################################################
+def infer_with_onnxruntime_trt_multi(onnx_path,image,img2lidars):
+    so = ort.SessionOptions()
+
+    # 配置 TensorRT 后端
+    trt_options = {
+        'device_id': 0,
+        'trt_max_workspace_size': 1 << 30,  # 1GB
+        'trt_fp16_enable': False,
+        'trt_engine_cache_enable': True,
+        'trt_engine_cache_path': './trt_cache'
+    }
+
+    # 创建会话
+    session = ort.InferenceSession(
+        onnx_path,
+        providers=['TensorrtExecutionProvider'],
+        provider_options=[trt_options],
+        sess_options=so
+    )
+
+    # 获取输入名称
+    input_names = [input.name for input in session.get_inputs()]
+
+    # 准备输入数据
+    inputs = {
+        input_names[0]: img2lidars,
+        input_names[1]: image
+    }
+
+    # 执行推理
+    outputs = session.run(None, inputs)
+
+    return outputs[0]
